@@ -2,12 +2,16 @@ import './App.css'
 
 import WeatherCard from './components/WeatherCard'
 import Typography from '@mui/material/Typography'
+import TextField from '@mui/material/TextField';
 import Container from '@mui/material/Container'
 import Button from '@mui/material/Button'
 import { useTranslation } from 'react-i18next'
 import { useEffect, useState } from 'react'
+import SearchIcon from "@mui/icons-material/Search";
+import InputAdornment from "@mui/material/InputAdornment";
 import GitHubIcon from '@mui/icons-material/GitHub';
 function App() {
+  const [search, setSearch] = useState("");
   const cities = [
     { city: 'Riyadh', lat: 24.7136, lon: 46.6753 },
     { city: 'Jeddah', lat: 21.5433, lon: 39.1728 },
@@ -21,7 +25,9 @@ function App() {
   ]
   const { t, i18n } = useTranslation()
   const [locale, setLocale] = useState('en')
-
+  const filteredCities = cities.filter((city) =>
+  t(city.city).toLowerCase().includes(search.toLowerCase())
+);
   function hanldeLanguageClick() {
     if (locale == 'en') {
       setLocale('ar')
@@ -44,6 +50,7 @@ function App() {
             padding: '40px 0',
           }}
         >
+       
           <Typography
             variant="h2"
             fontWeight="bold"
@@ -71,8 +78,53 @@ function App() {
           >
             {t('Arabic')}
           </Button>
-        </div>
 
+               
+        </div>
+        <div
+  style={{
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "15px",
+    marginBottom: "40px",
+    flexWrap: "wrap",
+  }}
+>
+  <TextField
+    value={search}
+    onChange={(e) => setSearch(e.target.value)}
+    placeholder={t("Search city")}
+    variant="outlined"
+    sx={{
+      width: "350px",
+      "& .MuiOutlinedInput-root": {
+        backgroundColor: "#fff",
+        borderRadius: "15px",
+      },
+    }}
+    InputProps={{
+      startAdornment: (
+        <InputAdornment position="start">
+          <SearchIcon color="primary" />
+        </InputAdornment>
+      ),
+    }}
+  />
+
+  <Button
+    variant="contained"
+    sx={{
+      height: "56px",
+      borderRadius: "15px",
+      px: 4,
+      fontWeight: "bold",
+      textTransform: "none",
+    }}
+  >
+    {t("Search")}
+  </Button>
+</div>
         {/* Cards */}
         <div  dir={locale == "en" ? "ltr" : "rtl"}
           style={{
@@ -83,7 +135,7 @@ function App() {
             paddingBottom: '40px',
           }}
         >
-          {cities.map((city) => (
+          {filteredCities.map((city) => (
             <WeatherCard
               key={city.city}
               city={city.city}
