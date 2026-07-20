@@ -1,0 +1,19 @@
+*{
+  font-family: "Inter", sans-serif !important;
+}
+
+.App {
+  min-height: 100vh;
+  width: 100%;
+  text-align: center;
+  background: linear-gradient(180deg, #4a90d9 0%, #a8d0e6 50%, #eef6fb 100%);
+  color: #FFFFFF;
+  
+}
+
+/* CUSTON FONTS */
+@font-face {
+  font-family: Inter;
+  src: url("/public/fonts/Inter-VariableFont_opsz\,wght.ttf");
+  font-weight: 500;
+}
